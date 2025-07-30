@@ -1,0 +1,98 @@
+
+class FlightFilterer:
+    def __init__(self, model="gpt-4o-mini", temperature=0):
+        self.llm = ChatOpenAI(model=model, temperature=temperature)
+        self.flight_schema = """
+Each flight in the list is a JSON object with the following fields:
+{
+  "airline": string,
+  "alliance": string (e.g. "Star Alliance"),
+  "from": string (origin city),
+  "to": string (destination city),
+  "departure_date": string (format: "YYYY-MM-DD"),
+  "return_date": string (format: "YYYY-MM-DD"),
+  "layovers": list of strings,
+  "price_usd": number,
+  "refundable": boolean,
+  "flight_number": string,
+  "duration_hours": number,
+  "cabin_class": string (e.g. "Economy")
+}
+"""
+
+        self.few_shot_prompt = ChatPromptTemplate.from_messages([
+            ("system", f'''You are a Python expert who writes robust filter functions for JSON data.
+Important: You ONLY OUTPUT the function and nothing else.
+Here is the flight JSON data schema:\n{self.flight_schema}'''),
+
+            # Example 1
+            ("human", '''Write a Python function that filters a list of flights where:
+- destination is Tokyo
+- departure_date is after 2025-08-01
+- return_date is before 2025-08-30
+- alliance is Star Alliance
+
+Use flight.get() for safe access. Output ONLY the function body in the format below:
+{def filter_flights(flights):
+    return [flight for flight in flights if ...]}'''),
+
+            ("assistant", '''def filter_flights(flights):
+    def to_date(s):
+        return datetime.strptime(s, "%Y-%m-%d") if s else None
+
+    return [
+        flight for flight in flights
+        if flight.get("to", "").lower() == "tokyo"
+        and to_date(flight.get("departure_date")) > datetime(2025, 8, 1)
+        and to_date(flight.get("return_date")) < datetime(2025, 8, 30)
+        and flight.get("alliance", "").lower() == "star alliance"
+    ]'''),
+
+            # Example 2
+            ("human", "Find me a round-trip to Tokyo in August with Star Alliance airlines only. I want to avoid overnight layovers."),
+
+            ("assistant", '''def filter_flights(flights):
+    def to_date(s):
+        return datetime.strptime(s, "%Y-%m-%d") if s else None
+
+    return [
+        flight for flight in flights
+        if flight.get("to", "").lower() == "tokyo"
+        and to_date(flight.get("departure_date")) >= datetime(2024, 8, 1)
+        and to_date(flight.get("return_date")) <= datetime(2024, 8, 30)
+        and flight.get("alliance", "").lower() == "star alliance"
+        and all("overnight" not in layover.lower() for layover in flight.get("layovers", []))
+    ]''')
+        ])
+    def generate_filter_function(self, user_query: str):
+        print("we in generate_filter_funciton as welll")
+        prompt_messages = self.few_shot_prompt.format_messages(query=user_query)
+
+    # ✅ Use HumanMessage, not a dict
+        prompt_messages.append(HumanMessage(content=user_query))
+
+        print("appended the prompt")
+        response = self.llm.invoke(prompt_messages)
+        print("here is the gresponse",response)
+        generated_code = response.content.strip()
+        
+        print("here is the generated code",generated_code)
+
+        # Clean up markdown formatting if exists
+        if generated_code.startswith("```"):
+            lines = generated_code.splitlines()
+            lines = [line for line in lines if not line.strip().startswith("```") and line.strip() != "python"]
+            generated_code = "\n".join(lines).strip()
+
+        print("\nGenerated filter code:\n", generated_code)
+
+        # Define the function dynamically
+        local_vars = {}
+        global_vars = {"datetime": datetime}
+        exec(generated_code, global_vars, local_vars)
+        return local_vars["filter_flights"]
+
+    def run_filter(self, flights, query: str):
+        print("we also here")
+        filter_func = self.generate_filter_function(query)
+        return filter_func(flights)
