@@ -54,7 +54,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10+
 - OpenAI API key
 - Git
 
@@ -64,7 +64,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
    ```bash
    git clone https://github.com/AreebAhmad-02/kavak-travels-agent
-   cd kavak-travel-assistant
+   cd kavak-travels-agent
    ```
 2. **Create virtual environment**
 
@@ -243,17 +243,7 @@ The system uses carefully crafted prompts for:
 - **Testing**: Comprehensive unit and integration tests
 - **CI/CD**: Automated deployment pipeline
 
-## 🤝 Contributing
 
-This is a technical case study for Kavak. For questions or feedback, please contact the Kavak hiring team.
-
-## 📄 License
-
-This project is created for Kavak's technical assessment purposes.
-
-## 📞 Support
-
-For technical support or questions about this implementation, please refer to the documentation above or contact the development team.
 
 ---
 
