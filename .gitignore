@@ -4,10 +4,13 @@ env/
 ENV/
 kavak-travel-env/
 .venv/
+example.env
 
 # Python
 __pycache__/
 
+# vector DB
+vector_db/
 
 # Environment Variables
 .env
