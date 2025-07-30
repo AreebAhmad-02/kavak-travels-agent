@@ -25,6 +25,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
 ## 🏗️ Architecture Overview
 ## Diagram
+```
 +------------------------------------------------------------+
 |         Kavak Conversational Travel Assistant              |
 +------------------------------------------------------------+
@@ -64,7 +65,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 |                                |   (ChatOpenAI / GPT)   |  |
 |                                +------------------------+  |
 +------------------------------------------------------------+
-
+```
 ### Agent Tools
 
 | Tool | Function |
