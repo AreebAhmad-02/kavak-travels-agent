@@ -29,7 +29,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
 | Tool | Function |
 |------|----------|
-| `search_flights` | Uses a JSON agent to query `flights.json` for matching flights |
+| `search_flights` | Uses a JSON agent using react technique using langchian agent executor to query `flights.json` for matching flights |
 | `get_travel_information` | RAG-based QA using `visa_rules.md` and FAISS vector store |
 
 ### Key Components
