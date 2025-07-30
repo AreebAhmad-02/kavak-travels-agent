@@ -25,6 +25,47 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
 ## 🏗️ Architecture Overview
 
+### Diagram
++--------------------------+
+|     User Interface       |
+|  (CLI / Streamlit UI)    |
++-----------+--------------+
+            |
+            v
++--------------------------+
+|    LangChain Agent       |
+|--------------------------|
+| - Prompt Template        |
+| - Tool Routing           |
+| - Memory (Chat History)  |
++-----------+--------------+
+            |
+            v
++-----------+---------------------------------------------+
+|                       AgentExecutor                     |
+|    (Manages tool calls, memory, and tool outputs)       |
++-----------+---------------------------------------------+
+            |
+            v
++--------------------+                +-------------------------------+
+|  Flight Search Tool|                |  Travel Info Tool (RAG)       |
+|--------------------|                |-------------------------------|
+| - JSON Agent       |                | - FAISS Vector Store          |
+| - flights.json     |                | - visa_rules.md (markdown)    |
+| - ReAct Agent Loop |                | - RetrievalQA Chain           |
++--------+-----------+                +-------------------------------+
+         |                                             |
+         v                                             v
++------------------------+                 +-----------------------------+
+|    JSON Toolkit Spec   |                 | OpenAI Embeddings (FAISS)   |
+| (Auto-generated schema)|                 +--------------+--------------+
++------------------------+                                |
+                                                          v
+                                          +-----------------------------+
+                                          |       OpenAI LLM API        |
+                                          | (ChatOpenAI / GPT-4.1-mini) |
+                                          +-----------------------------+
+
 ### Agent Tools
 
 | Tool | Function |
