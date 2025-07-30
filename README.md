@@ -24,6 +24,46 @@ This technical case study demonstrates advanced conversational AI capabilities u
 
 
 ## 🏗️ Architecture Overview
+## Diagram
++------------------------------------------------------------+
+|         Kavak Conversational Travel Assistant              |
++------------------------------------------------------------+
+|                                                            |
+|  +---------------------+     +--------------------------+  |
+|  |   LangChain Agent   |<--->|  Conversation Memory      |  |
+|  | (Tool-Calling Core) |     | (BufferWindowMemory)      |  |
+|  +---------------------+     +--------------------------+  |
+|             |                                  |            |
+|             v                                  v            |
+|     +----------------------------------------------+        |
+|     |              AgentExecutor                   |        |
+|     | (Handles tool routing, memory, tool output)  |        |
+|     +-------------------+--------------------------+        |
+|                         |                                   |
+|       +-----------------+-------------------+               |
+|       |                                     |               |
+|       v                                     v               |
+| +--------------------+        +--------------------------+  |
+| |  FlightSearchTool  |        |  KnowledgeBaseTool (RAG) |  |
+| | (Structured JSON)  |        |  (Markdown + FAISS)       |  |
+| +---------+----------+        +-------------+------------+  |
+|           |                                 |               |
+|     +-----v-----+                   +--------v--------+     |
+|     | flights.json|                |  visa_rules.md   |     |
+|     +-----------+|                | (Unstructured KB) |     |
+|                 ||                +--------+----------+     |
+|  +--------------+|                         |                |
+|  |  ReAct Agent  |                         v                |
+|  | (LangChain)   |              +------------------------+  |
+|  +--------------+              |   FAISS Vector Store    |  |
+|                                +-----------+------------+  |
+|                                            |               |
+|                                            v               |
+|                                +------------------------+  |
+|                                |  OpenAI Chat Model     |  |
+|                                |   (ChatOpenAI / GPT)   |  |
+|                                +------------------------+  |
++------------------------------------------------------------+
 
 ### Agent Tools
 
