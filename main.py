@@ -102,7 +102,6 @@ class KnowledgeBase:
 # Initialize components
 # flight_db = FlightDatabase()
 knowledge_base = KnowledgeBase()
-flight_filterer = FlightFilterer()
 
 # Define tools
 

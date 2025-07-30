@@ -1,6 +1,6 @@
 import streamlit as st
 import json
-from main import TravelAssistant, FlightDatabase, KnowledgeBase
+from main import TravelAssistant,KnowledgeBase
 import os
 from dotenv import load_dotenv
 

@@ -12,21 +12,40 @@ This technical case study demonstrates advanced conversational AI capabilities u
 - **Answer Policy Questions**: Provide visa and refund information using RAG (Retrieval-Augmented Generation)
 - **Maintain Context**: Handle multi-turn conversations with memory
 
-## 🏗️ System Architecture
 
 ### Core Components
+- 🗣 **Natural Language Understanding**: Interprets complex travel-related queries
+- 📅 **Structured Data Extraction**: Detects destination, dates, airlines, cost, and preferences
+- 🔍 **Flight Search Engine**: Filters a mock JSON dataset using agent + JSON toolkit
+- 📚 **Knowledge Retrieval**: Uses RAG on markdown policies to answer visa, refund, and travel rule questions
+- 🧠 **Memory Support**: Maintains context with `ConversationBufferMemory`
+- 🛠 **LangChain Agents**: Modular orchestration using OpenAI Tools + tool routing
+- 🌐 **Streamlit Web UI**: Interactive frontend for chat-based planning
 
-1. **Query Extractor**: Uses LLM to parse natural language into structured travel queries
-2. **Flight Database**: Mock database with search and filtering capabilities
-3. **Knowledge Base**: RAG system using FAISS vector store for policy information
-4. **Conversation Agent**: LangChain agent with tool routing and context management
-5. **Web Interface**: Streamlit app for user-friendly interaction
+
+## 🏗️ Architecture Overview
+
+### Agent Tools
+
+| Tool | Function |
+|------|----------|
+| `search_flights` | Uses a JSON agent to query `flights.json` for matching flights |
+| `get_travel_information` | RAG-based QA using `visa_rules.md` and FAISS vector store |
+
+### Key Components
+
+- **LangChain Agents**: Uses `create_openai_tools_agent` with tool routing
+- **Vector DB (FAISS)**: Embeds `visa_rules.md` using `OpenAIEmbeddings`
+- **Prompt Template**: Mixes system message, scratchpad, and memory
+- **Streamlit UI**: Simple chat interface with sidebar actions and state handling
+
 
 ### Technology Stack
 
 - **Language**: Python 3.x
-- **LLM Framework**: LangChain & LangGraph
-- **LLM Provider**: OpenAI GPT-3.5-turbo
+- **LLM Framework**: LangChain 
+- **LLM Provider**: OpenAI GPT-4.1-mini
+- **Vector Embedding**: OpenAI embeddings
 - **Vector Database**: FAISS
 - **Web Framework**: Streamlit
 - **Data Formats**: JSON, Markdown
@@ -44,22 +63,32 @@ This technical case study demonstrates advanced conversational AI capabilities u
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/AreebAhmad-02/kavak-travels-agent
    cd kavak-travel-assistant
    ```
+2. **Create virtual environment**
 
-2. **Install dependencies**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Set up environment variables**
 
-   ```bash
-   # Create .env file
-   echo "OPENAI_API_KEY=your-openai-api-key-here" > .env
-   ```
+4. **Set up environment variables** (optional)
+
+```bash
+# For Windows PowerShell:
+$env:OPENAI_API_KEY = "your-api-key-here"
+
+# For Unix/Linux:
+export OPENAI_API_KEY="your-api-key-here"
+```
 
 4. **Run the application**
 
@@ -118,7 +147,7 @@ Assistant: Found 3 flights matching your criteria:
 ```
 User: "What are the visa requirements for UAE citizens visiting Japan?"
 
-Assistant: UAE passport holders can enter Japan visa-free for up to 30 days for tourism purposes. Passport must be valid for at least 6 months beyond the intended stay. No visa application required for UAE citizens visiting Japan for tourism. Business travelers may require a business visa for stays longer than 30 days.
+Assistant: UAE citizens can enter Japan visa-free for short stays, usually up to 90 days, for purposes such as tourism, business, or visiting friends and relatives. However, visa policies may change, so I recommend verifying the latest entry requirements on the official website of the Embassy of Japan or the Japanese Ministry of Foreign Affairs before your trip. If you need further assistance or travel tips for Japan, feel free to ask!
 ```
 
 ### Policy Questions
@@ -161,23 +190,6 @@ The system uses carefully crafted prompts for:
 
 ## 🎨 Features & Capabilities
 
-### Core Features
-
-✅ **Natural Language Processing**: Understands complex travel requests
-✅ **Flight Search**: Multi-criteria filtering (airline, alliance, price, dates)
-✅ **Visa Information**: Country-specific requirements for UAE citizens
-✅ **Policy Queries**: Refund, cancellation, and travel policies
-✅ **Conversation Memory**: Maintains context across multiple turns
-✅ **Error Handling**: Graceful degradation for edge cases
-
-### Advanced Features
-
-✅ **Structured Query Extraction**: LLM-based parsing to structured format
-✅ **Vector Search**: Semantic similarity for knowledge retrieval
-✅ **Tool Routing**: Intelligent selection of appropriate tools
-✅ **Web Interface**: Modern Streamlit UI with real-time chat
-✅ **Modular Design**: Clean separation of concerns
-
 ### Sample Queries Handled
 
 - "Find flights to Paris in September under $1000"
@@ -210,7 +222,7 @@ The system uses carefully crafted prompts for:
 
 ### Performance Metrics
 
-- **Query Processing**: < 2 seconds for most requests
+- **Query Processing**: < 10 seconds for most requests
 - **Accuracy**: High precision for structured queries
 - **Scalability**: Modular design supports easy expansion
 
