@@ -56,7 +56,7 @@ This technical case study demonstrates advanced conversational AI capabilities u
 |           |                        +--------+----------+    |
 |  +--------------+|                         |                |
 |  |  flights.json |                         v                |
-|  | (LangChain)   |              +------------------------+  |
+|  |               |              +------------------------+  |
 |  +--------------+              |   FAISS Vector Store    |  |
 |                                +-----------+------------+   |
 |                                            |                |
