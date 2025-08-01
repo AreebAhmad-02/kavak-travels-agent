@@ -49,21 +49,22 @@ This technical case study demonstrates advanced conversational AI capabilities u
 | | (Structured JSON)  |        |  (Markdown + FAISS)       |  |
 | +---------+----------+        +-------------+------------+  |
 |           |                                 |               |
-|     +-----v-----+                   +--------v--------+     |
-|     | flights.json|                |  visa_rules.md   |     |
-|     +-----------+|                | (Unstructured KB) |     |
-|                 ||                +--------+----------+     |
+|     +-----v-------+                +--------v--------+      |
+|     | ReAct Agent |                |  visa_rules.md   |     |
+|     | (Langchain) |                |                  |     |
+      +------------+                | (Unstructured KB) |     |
+|           |                        +--------+----------+    |
 |  +--------------+|                         |                |
-|  |  ReAct Agent  |                         v                |
+|  |  flights.json |                         v                |
 |  | (LangChain)   |              +------------------------+  |
 |  +--------------+              |   FAISS Vector Store    |  |
-|                                +-----------+------------+  |
-|                                            |               |
-|                                            v               |
-|                                +------------------------+  |
-|                                |  OpenAI Chat Model     |  |
-|                                |   (ChatOpenAI / GPT)   |  |
-|                                +------------------------+  |
+|                                +-----------+------------+   |
+|                                            |                |
+|                                            v                |
+|                                +------------------------+   |
+|                                |  OpenAI Chat Model     |   |
+|                                |   (ChatOpenAI / GPT)   |   |
+|                                +------------------------+   |
 +------------------------------------------------------------+
 ```
 ### Agent Tools
