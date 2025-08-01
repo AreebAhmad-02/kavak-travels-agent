@@ -181,6 +181,14 @@ Assistant: Found 3 flights matching your criteria:
    Price: $1100
    Duration: 20 hours
    Refundable: No
+
+3. Singapore Airlines (Star Alliance)
+   Flight: SQ234
+   Route: Dubai → Tokyo
+   Price: $1300
+   Duration: 14 hours
+   Refundable: Yes
+   
 ```
 
 ### Visa Information Queries
@@ -208,8 +216,9 @@ The system uses carefully crafted prompts for:
 1. **Query Extraction**: Converts natural language to structured JSON
 2. **Agent Behavior**: Defines helpful, professional travel assistant persona
 3. **Tool Selection**: Routes queries to appropriate tools (flight search, knowledge base, etc.)
+4. **REACT** : Uses Reasoning and Action is used for Quering with the json and Vector DB for multi-hop Queries
 
-### LangChain/LangGraph Features
+### LangChain Features
 
 - **Agent Orchestration**: Intelligent tool routing based on query type
 - **Context Management**: Maintains conversation history across turns
@@ -219,13 +228,13 @@ The system uses carefully crafted prompts for:
 ### RAG Implementation
 
 - **Document Loading**: Markdown files loaded with TextLoader
+- **Text Splitter**: Langchain Markdown text splitter is used fot splitting text.
 - **Vector Embeddings**: OpenAI embeddings for semantic search
 - **Retrieval**: FAISS vector store with k=3 nearest neighbors
 - **Generation**: LLM-based answer synthesis from retrieved context
 
 ### Data Management
 
-- **Flight Database**: JSON-based mock data with 12+ sample flights
 - **Knowledge Base**: Comprehensive markdown covering visas, policies, tips
 - **Query Normalization**: Standardized date formats, alliance names, etc.
 
